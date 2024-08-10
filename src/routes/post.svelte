@@ -28,11 +28,11 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: 0 10px;
 	}
 
 	article :global(*) {
 		width: 100%;
+		padding: 0 10px;
 		max-width: var(--content-width);
 	}
 
@@ -49,10 +49,12 @@
 
 	article :global(p:has(img)) {
 		max-width: var(--content-width-wide);
+		padding: 0;
 		align-items: center;
 	}
 	article :global(p img) {
 		max-width: var(--content-width-wide);
+		padding: 0;
 	}
 
 	article :global(pre:has(code)) {
@@ -67,5 +69,6 @@
 	}
 	article :global(pre code) {
 		max-width: var(--content-width);
+		overflow-x: auto;
 	}
 </style>
