@@ -1,0 +1,89 @@
+/* Outline for debug */
+* {
+	outline: 0px solid red;
+}
+
+/* Light dark support */
+:root {
+	/* color-scheme: light; */
+	color-scheme: dark;
+}
+
+body {
+	color: light-dark(#000000, #ffffff);
+	background-color: light-dark(#ffffff, #1b1b1b);
+}
+
+/* Variables */
+body {
+	--color-link: #e8546c;
+
+	--content-width: 900px;
+	--content-width-wide: 1000px;
+}
+
+body {
+	font-size: 1.35rem;
+	min-height: 100vh;
+
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+body>* {
+	width: 100%;
+}
+
+a {
+	color: var(--color-link);
+	text-decoration: none;
+}
+
+/* https://modernfontstacks.com/ */
+body {
+	font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+}
+
+/* https://www.joshwcomeau.com/css/custom-css-reset/ */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+* {
+	margin: 0;
+}
+
+body {
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
