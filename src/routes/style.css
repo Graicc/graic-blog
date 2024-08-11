@@ -9,17 +9,22 @@
 	color-scheme: dark;
 }
 
-body {
-	color: light-dark(#000000, #ffffff);
-	background-color: light-dark(#ffffff, #1b1b1b);
-}
 
 /* Variables */
 body {
+	--background-primary: light-dark(#ffffff, #1b1b1b);
+	--background-secondary: light-dark(#e9e9e9, #161616);
+	--text-color: light-dark(#000000, #ffffff);
+
 	--color-link: #e8546c;
 
 	--content-width: 900px;
 	--content-width-wide: 1000px;
+}
+
+body {
+	color: var(--text-color);
+	background-color: var(--background-primary);
 }
 
 body {

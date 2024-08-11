@@ -41,13 +41,13 @@
 	/* TODO: make work with light mode */
 	* {
 		stroke-width: 2;
+		stroke: light-dark(black, white);
 		overflow: visible;
 	}
 
 	.logo {
 		--size: 60px;
 
-		filter: invert();
 		height: var(--size);
 		width: var(--size);
 	}
