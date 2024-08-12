@@ -2,6 +2,9 @@
 	export let title;
 	export let date;
 
+	/**
+	 * @param {Date} date
+	 */
 	function formatDate(date) {
 		const year = date.getFullYear();
 		const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
@@ -37,7 +40,7 @@
 	}
 
 	article :global(h1) {
-		font-size: 4rem;
+		font-size: 3rem;
 		line-height: 1;
 		max-width: var(--content-width);
 	}

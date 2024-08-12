@@ -18,8 +18,8 @@ body {
 
 	--color-link: #e8546c;
 
-	--content-width: 900px;
-	--content-width-wide: 1000px;
+	--content-width: 800px;
+	--content-width-wide: 900px;
 }
 
 body {
@@ -28,7 +28,7 @@ body {
 }
 
 body {
-	font-size: 1.35rem;
+	font-size: 18px;
 	min-height: 100vh;
 
 	min-height: 100vh;

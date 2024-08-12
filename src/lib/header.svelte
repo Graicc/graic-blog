@@ -28,6 +28,8 @@
 		background-color: var(--background-secondary);
 		width: 100%;
 		margin-bottom: 10px;
+
+		font-size: 1.35em;
 	}
 
 	nav {
@@ -46,7 +48,7 @@
 		margin-right: auto;
 	}
 
-	@media (max-width: 800px) {
+	@media (max-width: 600px) {
 		nav {
 			flex-direction: column;
 			align-items: baseline;
@@ -95,7 +97,7 @@
 		}
 	}
 
-	@media (min-width: 800px) {
+	@media (min-width: 600px) {
 		.mobile-menu {
 			display: none;
 		}
