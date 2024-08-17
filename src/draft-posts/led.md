@@ -1,0 +1,41 @@
+---
+title: $15 Smart LED Strip with WLED and Home Assistant
+subtitle: yada
+---
+
+- LED Strip types
+  - This article is about non-addressable LED strips, because they're much cheaper and I don't care about individual control
+  - I used 5050
+  - If you want white, get one with RGBW. <https://www.youtube.com/watch?v=uYbdx4I7STg>
+    - Higher end LEDs exist with adjustable white temperature, I haven't used
+- Choosing firmware
+  - Initially was going to use ESPHome, but WLED has everything built in and is designed for this application
+  - WLED is great, web installer is great, UI is great (I'm amazed that a microcontroller can run a web server)
+- Crimping connectors
+  - That one video
+  - JST connectors
+  - Daisy chained the LEDs, which is fine because they're all in parallel anyways
+- Power supply ready .95A
+- Powering the system
+  - LEDs power supply is 12V
+  - ESP32 is 3.3V
+    - Tried linear regulator, got too hot for my comfort (was dumping about 1W of energy)
+    - Used buck converter, set to 5V because I had one on hand
+    - Texas Instruments data sheet was great at walking through the rest of the circuit needed
+    - Not naming specific components because I'm not an EE and parts were chosen for availability.
+    - Wire to 5V pin on ESP32
+- Wiring diagram
+  - Based off of the [WLED wiring diagrams](https://kno.wled.ge/basics/compatible-led-strips/#non-addressable-led-strips)
+- 3D printed case
+  - Use fillets next time
+  - Sanded spokes for smooth fit
+- Tape method
+  - how to deal with corners?
+  - Failed (?) attempt with brackets
+- Refresh device to update list of presets
+- Automatons
+  - Sunset -> evening lightning
+  - iOS shortcut on alarm -> home assistant script that triggers a preset
+  - Setting up Siri shortcuts for voice commands (include screenshots)
+    - "Lights out"
+    - "ok home"

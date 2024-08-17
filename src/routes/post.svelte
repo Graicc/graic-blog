@@ -1,25 +1,21 @@
 <script>
+	import { formatDate } from '$lib/format';
+
 	export let title;
+	export let subtitle;
 	export let date;
-
-	/**
-	 * @param {Date} date
-	 */
-	function formatDate(date) {
-		const year = date.getFullYear();
-		const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-		const day = String(date.getDate()).padStart(2, '0');
-
-		return `${year}-${month}-${day}`;
-	}
 
 	let formattedDate = formatDate(new Date(date));
 </script>
 
 <article>
+	<div class="spacer"></div>
 	{#if title}
-		<h1>{title}</h1>
 		<sub>{formattedDate}</sub>
+		<h1>{title}</h1>
+		<h3>{subtitle}</h3>
+
+		<hr />
 	{/if}
 	<!-- <h1>asdf</h1> -->
 
@@ -27,13 +23,24 @@
 </article>
 
 <style>
+	article .spacer {
+		margin-top: 50px;
+	}
+
+	article hr {
+		/* width: 900px;
+		max-width: var(--content-width-wide); */
+		color: var(--text-color);
+		margin: 10px 0;
+	}
+
 	article {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
 
-	article :global(*) {
+	article > :global(*) {
 		width: 100%;
 		padding: 0 10px;
 		max-width: var(--content-width);
@@ -55,6 +62,7 @@
 		padding: 0;
 		align-items: center;
 	}
+
 	article :global(p img) {
 		max-width: var(--content-width-wide);
 		padding: 0;
@@ -70,8 +78,13 @@
 		justify-content: center;
 		align-items: center;
 	}
+
 	article :global(pre code) {
 		max-width: var(--content-width);
 		overflow-x: auto;
+	}
+
+	article :global(ul li) {
+		list-style-position: inside;
 	}
 </style>

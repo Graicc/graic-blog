@@ -17,7 +17,6 @@
 		</span>
 
 		<a href="/">Home</a>
-		<a href="/">Blog</a>
 		<a href="https://prints.graic.net">Prints</a>
 		<a href="https://github.com/Graicc">GitHub</a>
 	</nav>
