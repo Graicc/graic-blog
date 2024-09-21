@@ -63,19 +63,14 @@
 		align-items: center;
 	}
 
-	article :global(p img) {
-		max-width: var(--content-width-wide);
-		padding: 0;
-	}
-
 	article :global(pre:has(code)) {
-		max-width: var(--content-width-wide);
-		border: 2px solid white;
+		max-width: calc(var(--content-width) + 20px);
+		border: 1px solid #2b2b2b;
 		border-radius: 20px;
 		padding: 20px;
 
 		display: flex;
-		justify-content: center;
+		justify-content: left;
 		align-items: center;
 	}
 

@@ -1,5 +1,6 @@
 <script>
 	import './style.css';
+	import './prism-vsc-dark-plus.css';
 
 	import Header from '$lib/header.svelte';
 	import Footer from '../lib/Footer.svelte';
