@@ -14,6 +14,8 @@
 		width: 100%;
 
 		margin-top: auto;
+		padding-top: 1em;
+		padding-bottom: 1em;
 
 		display: flex;
 		flex-direction: row;
