@@ -27,6 +27,11 @@
 		margin-top: 50px;
 	}
 
+	article h3 {
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
 	article hr {
 		/* width: 900px;
 		max-width: var(--content-width-wide); */
@@ -48,7 +53,7 @@
 
 	article :global(h1) {
 		font-size: 3rem;
-		line-height: 1;
+		line-height: 1.1;
 		max-width: var(--content-width);
 	}
 
@@ -64,8 +69,9 @@
 	}
 
 	article :global(pre:has(code)) {
+		margin-bottom: 1.5em;
 		max-width: calc(var(--content-width) + 20px);
-		border: 1px solid #2b2b2b;
+		border: 1px solid var(--border-code);
 		border-radius: 20px;
 		padding: 20px;
 
@@ -74,12 +80,15 @@
 		align-items: center;
 	}
 
-	article :global(pre code) {
-		max-width: var(--content-width);
-		overflow-x: auto;
-	}
-
 	article :global(ul li) {
 		list-style-position: inside;
+	}
+
+	article :global(p code) {
+		border: 1px solid var(--border-code);
+		background-color: var(--background-code);
+		color: var(--text-color-secondary);
+		padding: 3px;
+		border-radius: 6px;
 	}
 </style>
