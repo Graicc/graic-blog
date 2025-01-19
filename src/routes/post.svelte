@@ -9,7 +9,6 @@
 </script>
 
 <article>
-	<div class="spacer"></div>
 	{#if title}
 		<sub>{formattedDate}</sub>
 		<h1>{title}</h1>
@@ -23,10 +22,6 @@
 </article>
 
 <style>
-	article .spacer {
-		margin-top: 50px;
-	}
-
 	article h3 {
 		margin-top: 5px;
 		margin-bottom: 5px;

@@ -1,5 +1,6 @@
 <script>
 	import Logo from './logo.svelte';
+	import ThemeToggle from './ThemeToggle.svelte';
 </script>
 
 <header>
@@ -19,6 +20,7 @@
 		<a href="/">Home</a>
 		<a href="https://prints.graic.net">Prints</a>
 		<a href="https://github.com/Graicc">GitHub</a>
+		<span id="toggle"><ThemeToggle /></span>
 	</nav>
 </header>
 
@@ -26,7 +28,7 @@
 	header {
 		background-color: var(--background-secondary);
 		width: 100%;
-		margin-bottom: 10px;
+		margin-bottom: 50px;
 
 		font-size: 1.35em;
 	}
@@ -92,6 +94,9 @@
 		}
 
 		nav:has(input:not(:checked)) a:not(:first-child) {
+			display: none;
+		}
+		nav:has(input:not(:checked)) #toggle {
 			display: none;
 		}
 	}

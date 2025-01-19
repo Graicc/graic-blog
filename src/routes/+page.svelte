@@ -8,11 +8,11 @@
 <article>
 	<h1>Hi, I'm <em>Graic</em></h1>
 
-	<p>
+	<!-- <p>
 		Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae ipsam corrupti doloribus
 		natus soluta qui magni debitis. Modi saepe earum odio provident cupiditate commodi. Saepe, nam
 		illo. Laudantium, optio sit.
-	</p>
+	</p> -->
 
 	<br />
 
@@ -23,11 +23,11 @@
 			{#if post.title}
 				<br />
 				<div class="wide">
+					<sub>{formatDate(new Date(post.date))}</sub>
 					<a href={`p/${post.uri}`}>
 						<h1>{post.title}</h1>
 					</a>
 					<h3>{post.subtitle}</h3>
-					<sub>{formatDate(new Date(post.date))}</sub>
 				</div>
 			{/if}
 		{/if}
@@ -40,7 +40,8 @@
 	}
 
 	em {
-		color: var(--link-color);
+		color: var(--accent-color);
+		font-weight: bold;
 	}
 
 	article {
