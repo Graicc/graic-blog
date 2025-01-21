@@ -1,18 +1,18 @@
 import adapter from '@sveltejs/adapter-cloudflare';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
-import { mdsvex } from 'mdsvex'
+import { mdsvex } from 'mdsvex';
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
-	extensions: ['.md' ],
+	extensions: ['.md'],
 	layout: './src/routes/post.svelte',
 	highlight: {
 		alias: {
-			rs: "rust"
+			rs: 'rust'
 		}
 	}
-}
+};
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

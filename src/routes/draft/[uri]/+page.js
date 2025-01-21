@@ -11,7 +11,7 @@ export async function load({ params }) {
 		};
 	} catch (error) {
 		return {
-			status: 404,
+			status: 404
 		};
 	}
 }

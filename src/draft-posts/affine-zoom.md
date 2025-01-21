@@ -1,7 +1,7 @@
 ---
 title: Precision preserving affine zoom on point
 subtitle: Or, the other way to zoom in on a point with a matrix
---- 
+---
 
 The normal way
 

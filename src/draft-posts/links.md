@@ -106,7 +106,7 @@ https://www.youtube.com/playlist?list=PLjhH01A4YOO3h0LwGNTf2F37L0_Gn7O4D All of 
 
 https://getsharex.com/ The best screen capture tool (run `winget install ShareX.ShareX`)
 
-https://www.youtube.com/watch?v=m3HwXlQPCEU Testing a Single-Node, Single Threaded, Distributed System Written in 1985 
+https://www.youtube.com/watch?v=m3HwXlQPCEU Testing a Single-Node, Single Threaded, Distributed System Written in 1985
 
 <!-- https://www.youtube.com/watch?v=tRgvaqpQPwE Durability and the art of consensus -->
 

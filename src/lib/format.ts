@@ -5,4 +5,3 @@ export function formatDate(date: Date) {
 
 	return `${year}-${month}-${day}`;
 }
-

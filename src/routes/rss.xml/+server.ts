@@ -1,11 +1,11 @@
-import * as config from '$lib/config'
-import type { Post } from '$lib/types'
+import * as config from '$lib/config';
+import type { Post } from '$lib/types';
 
 export async function GET({ fetch }) {
-	const response = await fetch('api/posts')
-	const posts: Post[] = await response.json()
+	const response = await fetch('api/posts');
+	const posts: Post[] = await response.json();
 
-	const headers = { 'Content-Type': 'application/xml' }
+	const headers = { 'Content-Type': 'application/xml' };
 	console.log(posts);
 
 	const xml = `
@@ -30,7 +30,7 @@ export async function GET({ fetch }) {
 					.join('')}
 			</channel>
 		</rss>
-	`.trim()
+	`.trim();
 
-	return new Response(xml, { headers })
+	return new Response(xml, { headers });
 }

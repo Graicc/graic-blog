@@ -4,7 +4,6 @@ subtitle: I am a winget shill
 date: 2025-01-02
 ---
 
-
 ## TL;DR
 
 ```bash
