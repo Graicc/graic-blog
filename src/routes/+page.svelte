@@ -1,13 +1,16 @@
 <script lang="ts">
 	import { formatDate } from '$lib/format';
+	import Quote from '$lib/Quote.svelte';
 	import type { Post } from '$lib/types';
 
 	export let data;
 </script>
 
 <article>
-	<h1>Hi, I'm <em>Graic</em></h1>
-
+	<div id="intro">
+		<h1>Hi, I'm <em>Graic</em></h1>
+		<div><Quote /></div>
+	</div>
 	<!-- <p>
 		Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae ipsam corrupti doloribus
 		natus soluta qui magni debitis. Modi saepe earum odio provident cupiditate commodi. Saepe, nam
@@ -35,8 +38,26 @@
 </article>
 
 <style>
-	article > h1 {
+	#intro {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		/* justify-content: space-between; */
+		align-items: flex-start;
+		gap: 10px;
+	}
+
+	#intro > h1 {
+		/* width: 100%; */
 		font-size: 3rem;
+		line-height: 1;
+		/* flex-grow: 1; */
+		flex: 1 1 30%;
+		min-width: 160px;
+	}
+
+	#intro > div {
+		flex: 2 1 60%;
 	}
 
 	em {
