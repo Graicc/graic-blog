@@ -62,16 +62,17 @@
 		['How we spend our days is, of course, how we spend our lives.', 'Annie Dillard'],
 		['Well behaved women seldom ever make history.', 'Laurel Thatcher Ulrich'],
 		['The Universe is under no obligation to make sense to you.', 'Neil deGrasse Tyson'],
-		['Not all those who wander are lost.', 'J. R. R. Tolkien'],
+		[
+			'We choose to go to the Moon in this decade and do the other things, not because they are easy, but because they are hard; because that goal will serve to organize and measure the best of our energies and skills, because that challenge is one that we are willing to accept, one we are unwilling to postpone, and one we intend to win',
+			'John F. Kennedy'
+		],
 		[
 			'<a href="https://en.wikipedia.org/wiki/Do_not_go_gentle_into_that_good_night">Do not go gentle into that good night, Old age should burn and rave at close of day; Rage, rage against the dying of the light.</a>',
 			'Dylan Thomas'
 		]
 	];
 
-	let seen = [];
 	let index = 0;
-	let quote = quotes[0];
 	/**
 	 * @param {number} invalid
 	 */
@@ -85,7 +86,6 @@
 
 	onMount(() => {
 		index = Math.floor(Math.random() * quotes.length);
-		// quote = quotes[index];
 	});
 </script>
 
