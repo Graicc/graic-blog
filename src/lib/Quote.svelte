@@ -72,7 +72,7 @@
 		]
 	];
 
-	let index = 0;
+	let index = 16;
 	/**
 	 * @param {number} invalid
 	 */
