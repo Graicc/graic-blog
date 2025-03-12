@@ -102,11 +102,12 @@
 
 <style>
 	#outer {
-		border: 1px solid var(--border-code);
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		border: 1px solid rgba(0, 0, 0, 0.1);
 		background-color: var(--background-code);
 		color: var(--text-color-secondary);
-		padding: 5px;
-		border-radius: 6px;
+		padding: 10px;
+		border-radius: 20px;
 
 		/* width: 50%; */
 	}

@@ -17,10 +17,6 @@
 		illo. Laudantium, optio sit.
 	</p> -->
 
-	<br />
-
-	<hr />
-
 	{#each data.posts as post}
 		{#if post}
 			{#if post.title}

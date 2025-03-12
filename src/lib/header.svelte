@@ -26,7 +26,6 @@
 
 <style>
 	header {
-		background-color: var(--background-secondary);
 		width: 100%;
 		margin-bottom: 50px;
 
@@ -35,8 +34,12 @@
 
 	nav {
 		max-width: var(--content-width);
+		background-color: var(--background-secondary);
 		margin: 10px auto;
-		padding: 0 10px;
+		padding: 10px;
+		border-radius: calc(min(infinity * 1px, 40px));
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		border: 1px solid rgba(0, 0, 0, 0.1);
 
 		display: flex;
 		flex-direction: row;

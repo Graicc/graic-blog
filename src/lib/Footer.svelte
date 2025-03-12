@@ -5,25 +5,37 @@
 </script>
 
 <footer>
-	<p>
-		Made with <Emoji /> by <b>Graic</b>
-	</p>
-	&nbsp; &nbsp;
-	<a href="/rss.xml"> <Fa icon={faRssSquare} size="lg" /></a>
+	<div>
+		<p>
+			Made with <Emoji /> by <b>Graic</b>
+		</p>
+		&nbsp; &nbsp;
+		<a href="/rss.xml"> <Fa icon={faRssSquare} size="lg" /></a>
+	</div>
 </footer>
 
 <style>
 	footer {
-		background-color: var(--background-secondary);
-		width: 100%;
+		/* width: 100%; */
 
 		margin-top: auto;
-		padding-top: 1em;
-		padding-bottom: 1em;
+		padding: 10px;
+
+		margin: 0 auto;
+		margin-top: auto;
+	}
+
+	div {
+		padding: 10px;
 
 		display: flex;
-		flex-direction: row;
 		align-items: center;
-		justify-content: center;
+	}
+
+	div {
+		background-color: var(--background-secondary);
+		border-radius: calc(infinity * 1px);
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		border: 1px solid rgba(0, 0, 0, 0.1);
 	}
 </style>
