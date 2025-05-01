@@ -7,7 +7,10 @@ export type TransactionData =
 			color: string;
 	  }
 	| {
-			type: 'clear';
+			type: 'fill';
+			row: number;
+			column: number;
+			color: string;
 	  };
 export type Transaction = {
 	data: TransactionData;
