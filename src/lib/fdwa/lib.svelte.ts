@@ -15,6 +15,8 @@ for (let i = 0; i < 10; i++) {
 	initialState.push(row);
 }
 
+const globalCache = new WeakMap<(_: any, __: any) => any, WeakMap<Transaction, State>>();
+
 export function treeReduce(
 	data: Transaction | undefined,
 	fn: (originalState: State, transaction: TransactionData) => State
@@ -23,7 +25,23 @@ export function treeReduce(
 		return initialState;
 	}
 
-	return fn(treeReduce(data.parent, fn), data.data);
+	if (globalCache.has(fn)) {
+		const cache = globalCache.get(fn)!;
+		if (cache.has(data)) {
+			return cache.get(data)!;
+		}
+	}
+
+	const result = fn(treeReduce(data.parent, fn), data.data);
+
+	if (!globalCache.has(fn)) {
+		globalCache.set(fn, new WeakMap<Transaction, State>());
+	}
+
+	const cache = globalCache.get(fn)!;
+	cache.set(data, result);
+
+	return result;
 }
 
 export function reducer(originalState: State, transaction: TransactionData): State {

@@ -55,6 +55,7 @@
 		previewHead = item;
 	}}
 	onMerge={(destination, source) => {
+		historyComponent.reset();
 		head = merge(destination, source);
 	}}
 />
