@@ -1,17 +1,19 @@
 <script lang="ts">
 	import { SvelteMap } from 'svelte/reactivity';
 	import Grid from './grid.svelte';
-	import { reducer, treeReduce } from './lib.svelte';
+	import { merge, reducer, treeReduce } from './lib.svelte';
 	import type { Transaction } from './types';
 
 	let {
 		heads,
 		onClick,
-		onHover
+		onHover,
+		onMerge
 	}: {
 		heads: Array<Transaction>;
 		onClick: (item: Transaction) => void;
 		onHover: (item: Transaction | undefined) => void;
+		onMerge: (destination: Transaction, source: Transaction) => void;
 	} = $props();
 
 	type Node = {
@@ -26,6 +28,8 @@
 		nodes.clear();
 		numBranches = 1;
 	}
+
+	let selectedTransaction: Transaction | undefined = $state();
 
 	let nodes: Map<Transaction, Node> = new SvelteMap();
 
@@ -71,47 +75,94 @@
 	$effect(() => {
 		heads.map(getNode);
 	});
+
+	function edgeStyle(start: { x: number; y: number }, end: { x: number; y: number }): string {
+		return `
+			left: ${start.x}px;
+			top: ${start.y}px;
+			width: ${Math.hypot(end.x - start.x, end.y - start.y)}px;
+			transform: rotate(${Math.atan2(end.y - start.y, end.x - start.x)}rad);
+		`;
+	}
+
+	let edges = $derived(
+		nodes.entries().map(([transaction, node]) => {
+			const parent = getNode(transaction.parent);
+			return edgeStyle(parent, node);
+		})
+	);
+
+	let mousePos: { x: number; y: number } = $state({ x: 0, y: 0 });
+
+	let containerElement: HTMLDivElement;
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
 	class="container"
 	style:height="{50 + 50 * numBranches}px"
+	bind:this={containerElement}
 	onmouseleave={() => {
 		onHover(undefined);
 	}}
+	onmouseup={(e) => {
+		if (e.button != 2) {
+			return;
+		}
+		selectedTransaction = undefined;
+		e.preventDefault();
+	}}
+	oncontextmenu={(e) => e.preventDefault()}
+	onmousemove={(e) => {
+		const rect = containerElement.getBoundingClientRect();
+		let x = e.clientX - rect.left + containerElement.scrollLeft;
+		let y = e.clientY - rect.top + containerElement.scrollTop;
+		mousePos = { x, y };
+	}}
 >
+	{#each edges as edge}
+		<div class="edge" style={edge}></div>
+	{/each}
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	{#each nodes as [transaction, { x, y }]}
 		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
-		{#if transaction.parent}
-			<div
-				class="edge"
-				style="
-					left: {getNode(transaction.parent).x}px;
-					top: {getNode(transaction.parent).y}px;
-					width: {Math.hypot(x - getNode(transaction.parent).x, y - getNode(transaction.parent).y)}px;
-					transform: rotate({Math.atan2(
-					y - getNode(transaction.parent).y,
-					x - getNode(transaction.parent).x
-				)}rad)
-				"
-			></div>
-		{/if}
 		<div
 			class={['node', heads.includes(transaction) ? 'current' : '']}
 			style="left: {x}px; top: {y}px;"
 			onclick={() => {
 				onClick(transaction);
 			}}
+			onmousedown={(e) => {
+				if (e.button != 2) {
+					return;
+				}
+				selectedTransaction = transaction;
+				e.preventDefault();
+			}}
+			onmouseup={(e) => {
+				if (e.button != 2) {
+					return;
+				}
+				if (selectedTransaction) {
+					onMerge(transaction, selectedTransaction);
+				}
+			}}
 			onmouseenter={() => {
-				onHover(transaction);
+				if (selectedTransaction) {
+					onHover(merge(transaction, selectedTransaction));
+				} else {
+					onHover(transaction);
+				}
 			}}
 		>
 			<Grid grid={treeReduce(transaction, reducer)} --size="4px" />
 		</div>
 	{/each}
+
+	{#if selectedTransaction}
+		<div class="edge" style={edgeStyle(getNode(selectedTransaction), mousePos)}></div>
+	{/if}
 </div>
 
 <style>
@@ -137,7 +188,6 @@
 		justify-content: center;
 		align-items: center;
 		overflow: hidden;
-		z-index: 1;
 	}
 
 	.node:hover {
@@ -154,6 +204,5 @@
 		background: black;
 		transform-origin: 0 50%;
 		height: 2px;
-		z-index: 0;
 	}
 </style>

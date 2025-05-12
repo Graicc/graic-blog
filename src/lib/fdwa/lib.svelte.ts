@@ -52,3 +52,34 @@ export function reducer(originalState: State, transaction: TransactionData): Sta
 
 	return nextState;
 }
+
+export function merge(left: Transaction | undefined, right: Transaction | undefined): Transaction {
+	if (left === undefined) {
+		return right!; // TODO: fix
+	}
+	if (right === undefined) {
+		return left;
+	}
+	if (left === right) {
+		return left;
+	}
+
+	let shouldBeBefore;
+	let shouldBeAfter;
+	if (left.timestamp < right.timestamp) {
+		// left is before the right
+		// so right should be after
+		shouldBeBefore = left;
+		shouldBeAfter = right;
+	} else {
+		shouldBeBefore = right;
+		shouldBeAfter = left;
+	}
+
+	let parent = merge(shouldBeBefore, shouldBeAfter.parent);
+
+	return {
+		...shouldBeAfter,
+		parent
+	};
+}

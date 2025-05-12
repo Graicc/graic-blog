@@ -2,7 +2,7 @@
 	import ColorPicker from './colorPicker.svelte';
 	import Grid from './grid.svelte';
 	import History from './history.svelte';
-	import { BLACK, reducer, treeReduce, WHITE } from './lib.svelte';
+	import { BLACK, merge, reducer, treeReduce, WHITE } from './lib.svelte';
 	import ToolPicker from './toolPicker.svelte';
 	import type { State, Transaction, TransactionData } from './types';
 
@@ -53,6 +53,9 @@
 	}}
 	onHover={(item) => {
 		previewHead = item;
+	}}
+	onMerge={(destination, source) => {
+		head = merge(destination, source);
 	}}
 />
 
