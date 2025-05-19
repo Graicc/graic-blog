@@ -6,14 +6,18 @@ export const RED = '#FF0000';
 export const GREEN = '#00FF00';
 export const BLUE = '#0000FF';
 
-const initialState: State = [];
-for (let i = 0; i < 10; i++) {
-	let row = [];
-	for (let j = 0; j < 10; j++) {
-		row.push(WHITE);
-	}
-	initialState.push(row);
-}
+// const initialState: State = [];
+// for (let i = 0; i < 10; i++) {
+// 	let row = [];
+// 	for (let j = 0; j < 10; j++) {
+// 		row.push(WHITE);
+// 	}
+// 	initialState.push(row);
+// }
+const SIZE = 10;
+const initialState: State = Array(SIZE)
+	.fill()
+	.map(() => Array(SIZE).fill(WHITE));
 
 const globalCache = new WeakMap<(_: any, __: any) => any, WeakMap<Transaction, State>>();
 

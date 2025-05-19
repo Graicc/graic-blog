@@ -173,7 +173,8 @@
 		/* height: fit-content; */
 		background: var(--background-code);
 		border-radius: 5px;
-		overflow-x: scroll;
+		/* overflow-x: scroll; */
+		overflow-x: auto;
 	}
 
 	.node {
