@@ -75,7 +75,21 @@
 		align-items: center;
 	}
 
+	article :global(ul) {
+		margin-bottom: 1.5em;
+		/* text-align: justify; */
+	}
+
+	article :global(ol) {
+		margin-bottom: 1.5em;
+		/* text-align: justify; */
+	}
+
 	article :global(ul li) {
+		list-style-position: inside;
+	}
+
+	article :global(ol li) {
 		list-style-position: inside;
 	}
 
