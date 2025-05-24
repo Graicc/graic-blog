@@ -9,14 +9,9 @@ import Br from '$lib/br.svelte';
 import App from '$lib/fdwa/app.svelte';
 </script>
 
-## Act 0: App
+<App reset=true, grid=true, toolPicker=true colorPicker=true history=true />
 
-<!--
-What needs to happen to set up the next section
-Drawing app
-- Canvas
--
--->
+## Act 0: App
 
 You want to draw a flower.
 

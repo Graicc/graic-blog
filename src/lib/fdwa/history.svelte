@@ -33,6 +33,7 @@
 
 	let nodes: Map<Transaction, Node> = new SvelteMap();
 
+	// TODO: handle merges correctly (adjust the y offsets)
 	function getNode(transaction: Transaction | undefined): Node {
 		if (transaction === undefined) {
 			return {
@@ -72,9 +73,29 @@
 		return node;
 	}
 
+	function getClosureOfNode(transaction: Transaction | undefined): Set<[Transaction, Node]> {
+		if (transaction === undefined) {
+			return new Set();
+		}
+
+		let parent = getClosureOfNode(transaction.parent);
+		// let node = getNode(transaction);
+		let node = nodes.get(transaction);
+		// This should never be hit
+		if (!node) {
+			return parent;
+		}
+
+		parent.add([transaction, node]);
+		return parent;
+	}
+
+	// Populate cache
 	$effect(() => {
 		heads.map(getNode);
 	});
+
+	let headsNodes = $derived(heads.map(getClosureOfNode).reduce((l, r) => l.union(r), new Set()));
 
 	function edgeStyle(start: { x: number; y: number }, end: { x: number; y: number }): string {
 		return `
@@ -86,7 +107,7 @@
 	}
 
 	let edges = $derived(
-		nodes.entries().map(([transaction, node]) => {
+		headsNodes.values().map(([transaction, node]) => {
 			const parent = getNode(transaction.parent);
 			return edgeStyle(parent, node);
 		})
@@ -124,7 +145,7 @@
 		<div class="edge" style={edge}></div>
 	{/each}
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	{#each nodes as [transaction, { x, y }]}
+	{#each headsNodes as [transaction, { x, y }]}
 		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div
@@ -168,7 +189,8 @@
 <style>
 	.container {
 		position: relative;
-		width: 800px;
+		/* width: 800px; */
+		max-width: var(--content-width-wide);
 		/* height: 200px; */
 		/* height: fit-content; */
 		background: var(--background-code);

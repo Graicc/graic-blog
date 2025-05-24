@@ -30,15 +30,38 @@
 			return;
 		}
 
-		state.head = {
+		setHead({
 			data: { type: state.toolType, row, column: col, color: state.color },
 			timestamp: new Date(),
 			parent: state.head
-		};
+		});
+	}
+
+	function setHead(newHead: Transaction) {
+		state.head = newHead;
+
+		// Todo: handle the case where you select a state in the past (this shouldn't create a new head)
+
+		if (state.heads.length == 0) {
+			state.heads = [state.head];
+			return;
+		}
+
+		if (state.heads.includes(newHead)) {
+			return;
+		}
+
+		let index = state.heads.indexOf(newHead.parent!);
+		if (index !== -1) {
+			state.heads[index] = state.head;
+		} else {
+			state.heads.push(state.head);
+		}
 	}
 
 	function reset() {
 		state.head = undefined;
+		state.heads = [];
 		historyComponent.reset();
 	}
 </script>
@@ -67,16 +90,24 @@
 {#if itemsToShow.history}
 	<History
 		bind:this={historyComponent}
-		heads={[state.head!]}
+		heads={state.heads}
 		onClick={(item) => {
-			state.head = item;
+			setHead(item);
 		}}
 		onHover={(item) => {
 			state.previewHead = item;
 		}}
 		onMerge={(destination, source) => {
-			historyComponent.reset();
-			state.head = merge(destination, source);
+			// remove destination and source from the list of heads
+			let index = state.heads.indexOf(destination);
+			if (index !== -1) {
+				state.heads.splice(index, 1);
+			}
+			index = state.heads.indexOf(source);
+			if (index !== -1) {
+				state.heads.splice(index, 1);
+			}
+			setHead(merge(destination, source));
 		}}
 	/>
 {/if}
