@@ -86,4 +86,12 @@
 		padding: 3px;
 		border-radius: 6px;
 	}
+
+	article :global(h2) {
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+		max-width: var(--content-width-wide);
+		align-items: center;
+		font-size: 2rem;
+	}
 </style>
