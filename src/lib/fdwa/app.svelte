@@ -107,6 +107,7 @@
 			if (index !== -1) {
 				state.heads.splice(index, 1);
 			}
+			historyComponent.reset();
 			setHead(merge(destination, source));
 		}}
 	/>

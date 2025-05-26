@@ -7,7 +7,10 @@ subtitle: Or, merge is all you need
 import Footnote from "$lib/Footnote.svelte"
 import Br from '$lib/br.svelte';
 import App from '$lib/fdwa/app.svelte';
+import Test from '$lib/fdwa/test.svelte';
 </script>
+
+<Test />
 
 <!--
 <App reset=true, grid=true, toolPicker=true colorPicker=true history=true />
@@ -15,7 +18,7 @@ import App from '$lib/fdwa/app.svelte';
 
 This is a post about ideas.
 This is a post about how the ideas we use shape how we approach problems.
-With the right perspective, hard problems become easy.
+With the right perspective, hard problems can become easy.
 
 This is also a post about drawing flowers.
 
@@ -47,13 +50,13 @@ To use the reducer pattern, we need to answer three questions:
 2. What do our updates look like?
 3. How do our updates change our state?
 
-Well, our state must be a grid of colors:
+Well, our state is a grid of colors:
 
 ```typescript
 type State = Array<Array<string>>;
 ```
 
-Since you have two tools, you'll have two types of updates:
+And since you have two tools, you'll have two types of updates:
 
 ```ts
 type UpdateData =
@@ -91,7 +94,7 @@ function reducer(originalState: State, update: UpdateData): State {
 }
 ```
 
-Lovely! Now we can use this reducer to manage updates to the canvas:
+Lovely! Now we can use this reducer to process updates to the canvas:
 
 ```ts
 const SIZE = 10;
@@ -117,7 +120,7 @@ function onClick(row: number, column: number) {
 <Canvas {state} {onClick}>
 ```
 
-Now that you handle updates, you are able to draw on the canvas.
+Now that you handle updates, you can draw on the canvas.
 Go ahead, draw your flower!
 
 <App grid=true toolPicker=true colorPicker=true />

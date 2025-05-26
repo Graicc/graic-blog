@@ -224,7 +224,7 @@
 
 	.edge {
 		position: absolute;
-		background: black;
+		background: light-dark(black, white);
 		transform-origin: 0 50%;
 		height: 2px;
 	}
