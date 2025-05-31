@@ -17,3 +17,6 @@ export type Transaction = {
 	timestamp: Date;
 	parent: Transaction | undefined;
 };
+export type NetworkPacket = {
+	head: Transaction
+};

@@ -2,11 +2,13 @@
 	import ColorPicker from './colorPicker.svelte';
 	import Grid from './grid.svelte';
 	import History from './history.svelte';
-	import { BLACK, merge, reducer, treeReduce, WHITE } from './lib.svelte';
+	import { BLACK, merge, reducer, treeReduce, isEqual, WHITE } from './lib.svelte';
 	import ToolPicker from './toolPicker.svelte';
-	import type { State, Transaction, TransactionData } from './types';
+	import type { NetworkPacket, State, Transaction, TransactionData } from './types';
+	import * as devalue from 'devalue';
 
 	import { state } from './state.svelte';
+	import Network from './network.svelte';
 	// let transactions: Array<TransactionData> = $state([]);
 
 	let itemsToShow: {
@@ -17,9 +19,12 @@
 		colorPicker: boolean | undefined;
 		history: boolean | undefined;
 		undoButton: boolean | undefined;
+		network: boolean | undefined;
 	} = $props();
 
 	let historyComponent: History;
+
+	let networkComponent: Network;
 
 	// let grid = $derived(transactions.reduce(reduce, initialState));
 	let grid = $derived(treeReduce(state.previewHead ?? state.head, reducer));
@@ -37,6 +42,7 @@
 		});
 	}
 
+	let isNetworking = false;
 	function setHead(newHead: Transaction) {
 		state.head = newHead;
 
@@ -57,6 +63,42 @@
 		} else {
 			state.heads.push(state.head);
 		}
+
+		// let nextState = structuredClone($state.snapshot(originalState));
+
+		if (!isNetworking) {
+			let packet: NetworkPacket = {
+				head: state.head
+			};
+			networkComponent.send(packet);
+		}
+	}
+
+	function onRecieve(data: NetworkPacket) {
+		isNetworking = true;
+		if (state.head) {
+			doMerge(state.head, data.head);
+		} else {
+			setHead(data.head);
+		}
+		isNetworking = false;
+	}
+
+	function onOpen(isHost: boolean) {
+		if (isHost && state.head) {
+			networkComponent.send({ head: state.head });
+		}
+	}
+
+	function doMerge(destination: Transaction, source: Transaction) {
+		// remove destination and source from the list of heads
+		state.heads = state.heads.filter(
+			(head) => !(isEqual(head, destination) || isEqual(head, source))
+		);
+		if (!isNetworking) {
+			historyComponent.reset();
+		}
+		setHead(merge(destination, source));
 	}
 
 	function reset() {
@@ -97,19 +139,7 @@
 		onHover={(item) => {
 			state.previewHead = item;
 		}}
-		onMerge={(destination, source) => {
-			// remove destination and source from the list of heads
-			let index = state.heads.indexOf(destination);
-			if (index !== -1) {
-				state.heads.splice(index, 1);
-			}
-			index = state.heads.indexOf(source);
-			if (index !== -1) {
-				state.heads.splice(index, 1);
-			}
-			historyComponent.reset();
-			setHead(merge(destination, source));
-		}}
+		onMerge={doMerge}
 	/>
 {/if}
 
@@ -123,6 +153,10 @@
 	>
 		Undo
 	</button>
+{/if}
+
+{#if itemsToShow.network}
+	<Network bind:this={networkComponent} {onRecieve} {onOpen} />
 {/if}
 
 <style>

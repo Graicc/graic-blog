@@ -7,13 +7,12 @@ subtitle: Or, merge is all you need
 import Footnote from "$lib/Footnote.svelte"
 import Br from '$lib/br.svelte';
 import App from '$lib/fdwa/app.svelte';
-import Test from '$lib/fdwa/test.svelte';
 </script>
 
-<Test />
-
 <!--
-<App reset=true, grid=true, toolPicker=true colorPicker=true history=true />
+-->
+<App reset=true, grid=true, toolPicker=true colorPicker=true history=true network=true />
+<!--
 -->
 
 This is a post about ideas.
