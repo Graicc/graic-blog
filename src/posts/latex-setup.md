@@ -2,6 +2,7 @@
 title: Local Latex Editing on Windows With VSCode
 subtitle: I am a winget shill
 date: 2025-01-02
+published: false
 ---
 
 ## TL;DR

@@ -24,7 +24,12 @@ async function getPosts() {
 	return posts;
 }
 
+async function getPublishedPosts() {
+	const allPosts = await getPosts();
+	return allPosts.filter(post => post.published === true);
+}
+
 export async function GET() {
-	const posts = await getPosts();
+	const posts = await getPublishedPosts();
 	return json(posts);
 }
