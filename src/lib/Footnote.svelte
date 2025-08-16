@@ -1,12 +1,13 @@
-<script>
-	export let word;
+<script lang="ts">
+	const uid = $props.id();
+	let { children, word }: { children: any; word: string } = $props();
 </script>
 
 <span class="outer">
-	<input type="checkbox" id="footnote" />
-	<label for="footnote">
+	<input type="checkbox" id="{uid}-footnote" />
+	<label for="{uid}-footnote">
 		{word} <span class="raise">†</span><span id="slot">
-			[<slot />]
+			[{@render children?.()}]
 		</span>
 	</label>
 </span>
