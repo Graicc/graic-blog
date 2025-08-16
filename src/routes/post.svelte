@@ -77,7 +77,21 @@
 		align-items: center;
 	}
 
+	article :global(ul) {
+		margin-bottom: 1.5em;
+		/* text-align: justify; */
+	}
+
+	article :global(ol) {
+		margin-bottom: 1.5em;
+		/* text-align: justify; */
+	}
+
 	article :global(ul li) {
+		list-style-position: inside;
+	}
+
+	article :global(ol li) {
 		list-style-position: inside;
 	}
 
@@ -87,6 +101,14 @@
 		color: var(--text-color-secondary);
 		padding: 3px;
 		border-radius: 6px;
+	}
+
+	article :global(h2) {
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+		max-width: var(--content-width-wide);
+		align-items: center;
+		font-size: 2rem;
 	}
 
 	article :global(#quote-outer) {
