@@ -4,8 +4,12 @@
 	export let title;
 	export let subtitle;
 	export let date;
+	export let published;
 
 	let formattedDate = formatDate(new Date(date));
+
+	import Fa from 'svelte-fa';
+	import { faWarning } from '@fortawesome/free-solid-svg-icons';
 </script>
 
 <article>
@@ -15,6 +19,12 @@
 		<h3>{subtitle}</h3>
 
 		<hr />
+	{/if}
+
+	{#if !published}
+		<h3 class="warning">
+			<Fa icon={faWarning} /> This post is has not yet been published. It is is still in progress.
+		</h3>
 	{/if}
 	<!-- <h1>asdf</h1> -->
 
@@ -31,7 +41,7 @@
 		/* width: 900px;
 		max-width: var(--content-width-wide); */
 		color: var(--text-color);
-		margin: 10px 0;
+		margin: 1.5em 0;
 	}
 
 	article {
@@ -113,6 +123,19 @@
 
 	article :global(#quote-outer) {
 		max-width: calc(var(--content-width) + 20px);
+		margin-bottom: 1.5em;
+	}
+
+	.warning {
+		color: red;
+		border: 1px solid red;
+		border-radius: 20px;
+		padding: 20px;
+		background-color: var(--background-code);
+		display: flex;
+		align-items: center;
+		gap: 1em;
+
 		margin-bottom: 1.5em;
 	}
 </style>
