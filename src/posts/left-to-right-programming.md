@@ -7,7 +7,6 @@ published: false
 <script>
 import Br from '$lib/br.svelte'
 import Footnote from '$lib/Footnote.svelte';
-import Cursor from '$lib/cursor.svelte';
 </script>
 
 I don't like Python's list comprehensions:
