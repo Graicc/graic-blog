@@ -52,7 +52,9 @@
 		max-width: var(--content-width);
 	}
 
-	article :global(p) {
+	article :global(p),
+	:global(ol),
+	:global(ul) {
 		margin-bottom: 1.5em;
 		/* text-align: justify; */
 	}
@@ -107,5 +109,10 @@
 		max-width: var(--content-width-wide);
 		align-items: center;
 		font-size: 2rem;
+	}
+
+	article :global(#quote-outer) {
+		max-width: calc(var(--content-width) + 20px);
+		margin-bottom: 1.5em;
 	}
 </style>

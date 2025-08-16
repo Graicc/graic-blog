@@ -1,13 +1,15 @@
 export async function load({ params }) {
 	try {
 		const post = await import(`./../../../posts/${params.uri}.md`);
-		const { title, date } = post.metadata;
+		const { title, subtitle, date, published } = post.metadata;
 		const content = post.default;
 
 		return {
 			content,
 			title,
-			date
+			subtitle,
+			date,
+			published
 		};
 	} catch (error) {
 		return {

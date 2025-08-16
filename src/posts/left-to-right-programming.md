@@ -1,0 +1,159 @@
+---
+title: Left to Right Programming
+subtitle: Autocomplete Should Always Work
+published: false
+---
+
+<script>
+import Br from '$lib/br.svelte'
+import Footnote from '$lib/Footnote.svelte';
+</script>
+
+I don't like Python's list comprehensions:
+
+```py
+text = "apple banana cherry\ndog emu fox"
+words_on_lines = [line.split() for line in text.splitlines()]
+```
+
+Don't get me wrong, declarative programming is good. However, this syntax has poor ergonomics. The editor can't help you out as you write it. To see what I mean, lets walk through typing this code.
+
+```py
+words_on_lines = [l
+```
+
+Ideally, your editor would be to autocomplete `line` here. Your editor can't do this because `line` hasn't been declared yet.
+
+```py
+words_on_lines = [line.sp
+```
+
+Here, our editor knows we want to access some property of `line`, but since it doesn't know the type of `line`, it can't make any useful suggestions. Should our editor flag `line` as a non-existent variable? For all it knows, we might have meant to refer to some existing `lime` variable.
+
+```py
+words_on_lines = [line.split() for line in
+```
+
+Okay, now we know that `line` is the variable we're iterating over. Is `split()` a method that exists for `line`? Who knows!
+
+
+```py
+words_on_lines = [line.split() for line in text.splitlines()]
+```
+
+Ah! now we know the type of `line` and can validate the call to `split()`.
+Notice that since `text` had already been declared, our editor is able to autocomplete `splitlines()`.
+
+This sucked! If we didn't know what the `split()` function was called and wanted some help from our editor, we'd have to write
+
+```py
+words_on_lines = [_ for line in text.splitlines()]
+```
+
+and go back to the `_` to get autocomplete on `line.sp`
+
+<Br />
+
+---
+
+<Br />
+<Br />
+
+You deserve better than this.
+
+To see what I mean, lets look at a Rust example that does it <Footnote word="better."> The most elegant solution here is Haskell's `map words $ lines text` but that breaks all the principles I'm arguing for.</Footnote>
+
+```rs
+let text = "apple banana cherry\ndog emu fox";
+let words_on_lines = text.lines().map(|line| line.split_whitespace());
+```
+
+If you haven't seen Rust before, the `|argument| result` syntax is an anonymous function equivilent to `function myfunction(argument) { return result; }`
+
+Here, your program is constructed left to right. The first time you type `line` is the declaration of the variable. as soon as you type 
+`line.` your editor is able to give you suggestions of <Footnote word="possible methods."> In fact, I didn't know that Rust had a `split_whitespace` function until I started typing this example and it popped up. </Footnote>.
+
+This is much more pleasent. Your editor is able to guide you towards the [Pit of Success](https://blog.codinghorror.com/falling-into-the-pit-of-success/).
+
+<Br />
+
+---
+
+<Br />
+<Br />
+
+There's a principle in design called [progressive disclosure](https://en.wikipedia.org/wiki/Progressive_disclosure). The user should only be exposed to as much complexity as is neccessary to complete a task.
+Additionally, complexity should naturally surface itself as it is relevant to the user.
+You shouldn't have to choose a font family and size before you start typing into Word, and options to change text wrapping should appear when you add an image.
+
+In C, you can't have methods on structs. This means that any function that could be `myStruct.function(args)` has to be `function(myStruct, args)`.
+
+Suppose you have a `FILE *file` and you want to get it's contents.
+Ideally, you'd be able to type `file.` and see a list of every function that is primarily concerned with files.
+From there you could pick `read` and get on with your day.
+
+Instead, you must know that functions releated to `FILE *` tend to start with `f`, and when you type `f` the best your editor can do is show you all functions ever written that start with an `f`.
+From there you can eventually find `fread`, but you have no confidence that it was the best choice. Maybe there was a `read_lines` function that does exactly what you want, but you'll never discover it by accident.
+
+In a more ideal language, you'd see that a `close` method exists while you're typing `file.read`. This gives you a hint that you need to close your file when you're done with it. You naturally came accross this information right as it became relevant to you. In C, you have to know ahead of time that `fclose` is a function that you'll need to call once you're done with the file.
+
+<Br />
+
+---
+
+<Br />
+<Br />
+
+C is not the only language that has this problem. Python has plenty of examples too. Consider the following Python and JavaScript snippets:
+
+```py
+# Python
+text = "lorem ipsum dolor sit amet"
+word_lengths = map(len, text.split())
+```
+
+```js
+// JavaScript
+text = "lorem ipsum dolor sit amet"
+wordLengths = text.split(" ").map(word => word.length)
+```
+
+While Python gets some points for using a <Footnote word="first-class function"> Haskell, of course, solos with `map len $ words text` </Footnote>, the functions are not discoverable. Is string length `len`, `length`, `size`, `count`, `num`, or <Footnote word="#"> It is in Lua! I've seen all of these names used at some point </Footnote>? Is there even a global function for length? You won't know until you try all of them.
+
+In the JavaScript version, you see length as soon as you type `word.l`. There is no guesswork for what the function is named. The same is true for the `map`. When you type `.map`, you know that this function is going to work with the data you have. You aren't going to get some weird error because the `map` function actually expected some other type.
+
+<Br />
+
+---
+
+<Br />
+<Br />
+
+
+While the Python code in the previous example is still readable, it gets worse as the complexity of the logic increases. Consider the following code that was part of [my 2024 Advent of Code solutions](https://github.com/Graicc/advent-of-code-2024/blob/0d7bf0f4f05489f0b5a09255fde47370084066e3/day_2/aoc2.py#L9).
+
+```py
+len(list(filter(lambda line: all([abs(x) >= 1 and abs(x) <= 3 for x in line]) and (all([x > 0 for x in line]) or all([x < 0 for x in line])), diffs)))
+```
+
+Yikes. You have to jump back and forth between the start and end of the line to figure out what's going on. "Okay so we have the length of a list of some filter which takes this lambda... is it both of these conditions or just one? Wait which parenthesis does this go with..."
+
+In JavaScript:
+
+```javascript
+diffs.filter(line => 
+    line.every(x => Math.abs(x) >= 1 && Math.abs(x) <= 3) &&
+    (line.every(x => x > 0) || line.every(x => x < 0))
+).length;
+```
+
+Ah, okay. We have some list of `diffs`, that we filter down based on two conditons, and then we return the number that pass. The logic of the program can be read from left to right!
+
+<Br />
+
+---
+
+<Br />
+<Br />
+
+TODO: Conclusion

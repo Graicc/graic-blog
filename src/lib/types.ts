@@ -3,4 +3,5 @@ export type Post = {
 	subtitle: string;
 	date: string;
 	uri: string;
+	published: boolean;
 };

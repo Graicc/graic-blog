@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-cloudflare';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { resolve } from 'path';
 
 import { mdsvex } from 'mdsvex';
 
@@ -15,7 +16,9 @@ const path_to_layout = join(__dirname, './src/routes/post.svelte');
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
 	extensions: ['.md'],
-	layout: path_to_layout,
+	layout: {
+		_: resolve('./src/routes/post.svelte')
+	},
 	highlight: {
 		alias: {
 			rs: 'rust'

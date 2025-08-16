@@ -1,6 +1,7 @@
 ---
 title: $15 Smart LED Strip with WLED and Home Assistant
 subtitle: yada
+published: false
 ---
 
 - LED Strip types

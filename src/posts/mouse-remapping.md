@@ -2,6 +2,7 @@
 title: Remapping Mouse DPI Buttons to F13/F14
 subtitle: Some light hex-editing
 date: 2024-09-23
+published: true
 ---
 
 <script>
