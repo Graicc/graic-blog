@@ -1,6 +1,7 @@
 ---
 title: Left to Right Programming
-subtitle: Autocomplete Should Always Work
+subtitle: Programs Should Be Valid as They Are Typed
+date: 2025-08-17 12:00:00 EDT
 published: false
 ---
 
@@ -16,7 +17,7 @@ text = "apple banana cherry\ndog emu fox"
 words_on_lines = [line.split() for line in text.splitlines()]
 ```
 
-Don't get me wrong, declarative programming is good. However, this syntax has poor ergonomics. The editor can't help you out as you write it. To see what I mean, lets walk through typing this code.
+Don't get me wrong, declarative programming is good. However, this syntax has poor ergonomics. Your editor can't help you out as you write it. To see what I mean, lets walk through typing this code.
 
 ```py
 words_on_lines = [l
@@ -68,12 +69,12 @@ let text = "apple banana cherry\ndog emu fox";
 let words_on_lines = text.lines().map(|line| line.split_whitespace());
 ```
 
-If you haven't seen Rust before, the `|argument| result` syntax is an anonymous function equivilent to `function myfunction(argument) { return result; }`
+If you aren't familiar with Rust syntax, `|argument| result` is an anonymous function equivilent to `function myfunction(argument) { return result; }`
 
 Here, your program is constructed left to right. The first time you type `line` is the declaration of the variable. as soon as you type 
-`line.` your editor is able to give you suggestions of <Footnote word="possible methods."> In fact, I didn't know that Rust had a `split_whitespace` function until I started typing this example and it popped up. </Footnote>.
+`line.` your editor is able to give you suggestions of <Footnote word="possible methods."> In fact, I didn't know that Rust had a `split_whitespace` function until it popped up as I was typing this example. </Footnote>
 
-This is much more pleasent. Your editor is able to guide you towards the [Pit of Success](https://blog.codinghorror.com/falling-into-the-pit-of-success/).
+This is much more pleasent. Since the program is always in a somehwat valid state as you type it, your editor is able to guide you towards the [Pit of Success](https://blog.codinghorror.com/falling-into-the-pit-of-success/).
 
 <Br />
 
@@ -84,7 +85,7 @@ This is much more pleasent. Your editor is able to guide you towards the [Pit of
 
 There's a principle in design called [progressive disclosure](https://en.wikipedia.org/wiki/Progressive_disclosure). The user should only be exposed to as much complexity as is neccessary to complete a task.
 Additionally, complexity should naturally surface itself as it is relevant to the user.
-You shouldn't have to choose a font family and size before you start typing into Word, and options to change text wrapping should appear when you add an image.
+You shouldn't have to choose a font family and size before you start typing into Word, and options to change text wrapping around images should appear when you add an image.
 
 In C, you can't have methods on structs. This means that any function that could be `myStruct.function(args)` has to be `function(myStruct, args)`.
 
@@ -93,7 +94,7 @@ Ideally, you'd be able to type `file.` and see a list of every function that is 
 From there you could pick `read` and get on with your day.
 
 Instead, you must know that functions releated to `FILE *` tend to start with `f`, and when you type `f` the best your editor can do is show you all functions ever written that start with an `f`.
-From there you can eventually find `fread`, but you have no confidence that it was the best choice. Maybe there was a `read_lines` function that does exactly what you want, but you'll never discover it by accident.
+From there you can eventually find `fread`, but you have no confidence that it was the best choice. Maybe there was a more efficient `read_lines` function that does exactly what you want, but you'll never discover it by accident.
 
 In a more ideal language, you'd see that a `close` method exists while you're typing `file.read`. This gives you a hint that you need to close your file when you're done with it. You naturally came accross this information right as it became relevant to you. In C, you have to know ahead of time that `fclose` is a function that you'll need to call once you're done with the file.
 
@@ -120,7 +121,7 @@ wordLengths = text.split(" ").map(word => word.length)
 
 While Python gets some points for using a <Footnote word="first-class function"> Haskell, of course, solos with `map len $ words text` </Footnote>, the functions are not discoverable. Is string length `len`, `length`, `size`, `count`, `num`, or <Footnote word="#"> It is in Lua! I've seen all of these names used at some point </Footnote>? Is there even a global function for length? You won't know until you try all of them.
 
-In the JavaScript version, you see length as soon as you type `word.l`. There is no guesswork for what the function is named. The same is true for the `map`. When you type `.map`, you know that this function is going to work with the data you have. You aren't going to get some weird error because the `map` function actually expected some other type.
+In the JavaScript version, you see length as soon as you type `word.l`. There is less guesswork for what the function is named. The same is true for the `map`. When you type `.map`, you know that this function is going to work with the data you have. You aren't going to get some weird error because the `map` function actually expected some other type, or because your language actually calls this function <Footnote word="select"> As it is in C# LINQ </Footnote>.
 
 <Br />
 
@@ -156,4 +157,13 @@ Ah, okay. We have some list of `diffs`, that we filter down based on two condito
 <Br />
 <Br />
 
-TODO: Conclusion
+All of these examples illustrate a common principle:
+
+## <center> Programs should be valid as they are typed. </center>
+
+When you've typed `text`, the program is valid.
+When you've typed `text.split(" ")`, the program is valid.
+When you've typed `text.split(" ").map(word => word.length)`, the program is valid.
+Since the program is valid as you build it up, your editor is able to help you out. If you had a REPL, you could even see the result as you type your program out.
+
+When you can, try to uphold this principle. Tools should give the user the best possible experience.
