@@ -2,7 +2,7 @@
 title: Left to Right Programming
 subtitle: Programs Should Be Valid as They Are Typed
 date: 2025-08-17 12:00:00 EDT
-published: false
+published: true
 ---
 
 <script>
@@ -166,4 +166,4 @@ When you've typed `text.split(" ")`, the program is valid.
 When you've typed `text.split(" ").map(word => word.length)`, the program is valid.
 Since the program is valid as you build it up, your editor is able to help you out. If you had a REPL, you could even see the result as you type your program out.
 
-When you can, try to uphold this principle. Tools should give the user the best possible experience.
+Make good APIs!
