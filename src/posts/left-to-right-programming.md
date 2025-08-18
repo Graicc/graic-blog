@@ -1,7 +1,7 @@
 ---
 title: Left to Right Programming
 subtitle: Programs Should Be Valid as They Are Typed
-date: 2025-08-17 12:00:00 EDT
+date: 2025-08-17T12:00:00-4:00
 published: true
 ---
 
