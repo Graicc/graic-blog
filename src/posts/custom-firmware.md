@@ -15,3 +15,7 @@ Zadig
 - betaflight needs WinUSB https://betaflight.com/docs/development/USB-Flashing
 
 https://github.com/betaflight/config/blob/master/configs/OMNIBUSF4SD/config.h
+
+embassy_usb_logger
+
+Probably want to use internal oscillator
