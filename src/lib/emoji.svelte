@@ -21,10 +21,11 @@
 	];
 	let emoji = '❤️';
 
-	onMount(() => {
+	let reload = () => {
 		const emojiIndex = Math.floor(Math.random() * emojis.length);
 		emoji = emojis[emojiIndex];
-	});
+	};
+	onMount(reload);
 </script>
 
-{emoji}
+<span role="none" on:mouseover={reload} on:focus={reload}>{emoji}</span>
