@@ -16,11 +16,4 @@
 
 <slot></slot>
 
-<div class="half-height"></div>
 <Footer />
-
-<style>
-	.half-height {
-		height: 25vh;
-	}
-</style>
