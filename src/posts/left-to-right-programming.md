@@ -8,7 +8,10 @@ published: true
 <script>
 import Br from '$lib/br.svelte'
 import Footnote from '$lib/Footnote.svelte';
+import BigLink from '$lib/BigLink.svelte';
 </script>
+
+<BigLink href="https://news.ycombinator.com/item?id=44942936">Discuss on Hacker News</BigLink>
 
 I don't like Python's list comprehensions:
 
@@ -36,7 +39,6 @@ words_on_lines = [line.split() for line in
 ```
 
 Okay, now we know that `line` is the variable we're iterating over. Is `split()` a method that exists for `line`? Who knows!
-
 
 ```py
 words_on_lines = [line.split() for line in text.splitlines()]
@@ -71,7 +73,7 @@ let words_on_lines = text.lines().map(|line| line.split_whitespace());
 
 If you aren't familiar with Rust syntax, `|argument| result` is an anonymous function equivilent to `function myfunction(argument) { return result; }`
 
-Here, your program is constructed left to right. The first time you type `line` is the declaration of the variable. as soon as you type 
+Here, your program is constructed left to right. The first time you type `line` is the declaration of the variable. as soon as you type
 `line.` your editor is able to give you suggestions of <Footnote word="possible methods."> In fact, I didn't know that Rust had a `split_whitespace` function until it popped up as I was typing this example. </Footnote>
 
 This is much more pleasent. Since the program is always in a somehwat valid state as you type it, your editor is able to guide you towards the [Pit of Success](https://blog.codinghorror.com/falling-into-the-pit-of-success/).
@@ -115,8 +117,8 @@ word_lengths = map(len, text.split())
 
 ```js
 // JavaScript
-text = "lorem ipsum dolor sit amet"
-wordLengths = text.split(" ").map(word => word.length)
+text = 'lorem ipsum dolor sit amet';
+wordLengths = text.split(' ').map((word) => word.length);
 ```
 
 While Python gets some points for using a <Footnote word="first-class function"> Haskell, of course, solos with `map len $ words text` </Footnote>, the functions are not discoverable. Is string length `len`, `length`, `size`, `count`, `num`, or <Footnote word="#"> It is in Lua! I've seen all of these names used at some point </Footnote>? Is there even a global function for length? You won't know until you try all of them.
@@ -130,7 +132,6 @@ In the JavaScript version, you see length as soon as you type `word.l`. There is
 <Br />
 <Br />
 
-
 While the Python code in the previous example is still readable, it gets worse as the complexity of the logic increases. Consider the following code that was part of [my 2024 Advent of Code solutions](https://github.com/Graicc/advent-of-code-2024/blob/0d7bf0f4f05489f0b5a09255fde47370084066e3/day_2/aoc2.py#L9).
 
 ```py
@@ -142,9 +143,10 @@ Yikes. You have to jump back and forth between the start and end of the line to 
 In JavaScript:
 
 ```javascript
-diffs.filter(line => 
-    line.every(x => Math.abs(x) >= 1 && Math.abs(x) <= 3) &&
-    (line.every(x => x > 0) || line.every(x => x < 0))
+diffs.filter(
+	(line) =>
+		line.every((x) => Math.abs(x) >= 1 && Math.abs(x) <= 3) &&
+		(line.every((x) => x > 0) || line.every((x) => x < 0))
 ).length;
 ```
 
