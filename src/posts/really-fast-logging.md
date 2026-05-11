@@ -1,6 +1,7 @@
 ---
 title: Really Fast Microcontroller Black Box Sensor Logging 
 subtitle: Or, DMA is all you need
+date: 2026-05-11
 published: false
 ---
 
@@ -16,17 +17,17 @@ It is possible to do this with almost no overhead by doing less work.
 
 <!-- This article makes references to STM32F405 and SD card specific behavior since it's what I'm using, but the techniques are general enough to apply broadly. -->
 
-This article assumes you are logging to flash memory (either an IC or an SD card).
+This article assumes you are logging to flash storage (either an IC or an SD card).
 
 It also assumes that you are writing your own drivers to talk to sensors. You should be! They aren't that scary, and you'll be able to get a lot higher performance out of your system.
 
 ## Logging With a Buffer
 
-You can't write individual bytes to a flash chip. [Flash memory](https://en.wikipedia.org/wiki/Flash_memory) erases whole pages (typically 512 bytes) at a time to write new information. As a result, we must store data in an intermediate buffer that is written to memory in one go.
+You can't write individual bytes to flash storage. [Flash memory](https://en.wikipedia.org/wiki/Flash_memory) erases whole pages (typically 512 bytes) at a time to write new information. As a result, we must store data in an intermediate buffer that is written to storage in one go.
 
-As we read sensor values, they are written into this buffer. Once the buffer is full, we write the whole thing to storage. After the data is written, we can reset the buffer and start putting more information in the start (in practice, you wouldn't clear out the existing data, you would just write over it).
+As we read sensor data, it is written into this buffer. Once the buffer is full, we write the whole thing to storage. After the data is written, we can reset the buffer and start putting more information in the start (in practice, you wouldn't clear out the existing data, you would just write over it).
 
-There are additional overheads in the protocols used when writing to a flash chip, so it is more efficient to use a larger buffer size. This way, the costs are [amortized](https://en.wikipedia.org/wiki/Amortized_analysis) across many sensor readings, lowering the average cost of logging a single data point.
+There are additional overheads in the protocols used when writing to flash storage, so it is more efficient to use a larger buffer size. This way, the costs are [amortized](https://en.wikipedia.org/wiki/Amortized_analysis) across many sensor readings, lowering the average cost of logging a single data point.
 
 If you're using an SD card with a filesystem, you should match the file system sector size and your buffer size.
 
@@ -36,15 +37,15 @@ While having a large buffer is great, when you reach the end of the buffer you s
 
 To solve this, we need two things. A second buffer, and the ability to write to storage in the background.
 
-The hard part is Writing to storage in the background. You (probably) only have one core, so how can you write bytes onto the wire without occupying the CPU's time?
+The hard part is writing to storage in the background. You (probably) only have one core, so how can you write bytes onto the hardware interface without occupying the CPU's time?
 Fortunately, this is a common enough problem that there is already a solution in the hardware.
 
 Most microcontrollers (hopefully yours!) have something called a [Direct Memory Access (DMA) controller](https://en.wikipedia.org/wiki/Direct_memory_access).
-At the most basic level, a DMA controller is instructed by the processor to copy a sequence of bytes from one region in memory to
-another. It does this in the background, freeing up the processor to do other work.
+At the most basic level, a DMA controller is instructed by the CPU to copy a sequence of bytes from one region in memory to
+another. It does this in the background, freeing up the CPU to do other work.
 <!-- <Footnote word="another. "> In programming terms, this functions as an asynchronous memcpy. </Footnote>  -->
 
-All peripherals on a microcontroller are memory mapped. That means that sending bytes over the write to storage (e.g. over [SPI](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface)) is done by writing the data to a specific address in memory.
+All peripherals on a microcontroller are memory mapped. That means that sending bytes over the hardware interface to storage (e.g. over [SPI](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface)) is done by writing the data to a specific address in memory.
 
 Instead of configuring our DMA controller to copy the buffer to another region of memory, we can configure it to copy each byte in the buffer to the specific transmit address used by our peripheral.
 By doing so, the microcontroller can transmit the log data without having to wait for the transfer to <Footnote word="complete."> The DMA controller can be used to do some crazy tricks, even making an [AM radio with no CPU usage](https://youtu.be/1FEBX8l2_5w?t=2452). </Footnote>
@@ -57,10 +58,10 @@ Memory allocators are objects that provide programs with a specific amount of me
 
 <!-- On a typical computer, the operating system provides a memory allocator that can handle requests of any size. Unfortunately, on a microcontroller, there is no operating system, nor is there enough memory to dynamically allocate it. -->
 
-An [arena allocator](https://en.wikipedia.org/wiki/Region-based_memory_management) is a specific type of memory allocator where all allocations are freed at once. Internally, the arena has two things. A continuous span of bytes that it uses to serve memory requests, and a counter indicating where the end of used memory is. when it receives a memory allocation request (a malloc), it returns a pointer to the start of unused memory. It then bumps the counter to the new edge of used memory. When the arena is freed, the counter is reset to the start of the span of bytes.
+An [arena allocator](https://en.wikipedia.org/wiki/Region-based_memory_management) is a specific type of memory allocator where all allocations are freed at once. Internally, the arena has two things. A continuous span of bytes that it uses to serve memory requests, and a counter indicating where the end of used memory is. When it receives a memory allocation request (a malloc), it returns a pointer to the start of unused memory. It then bumps the counter to the new edge of used memory. When the arena is freed, the counter is reset to the start of the span of bytes.
 
-This sounds a lot like our buffer! In fact, we can treat our log buffer as a memory allocator. Instead of storing our sensor readings on the stack, we can store them directly in the log buffer.
-You need some place in memory to store the sensor readings while you operate on them, so it mind as well be in the <Footnote word="log buffer. "> On modern processors, this can be bad for cache locality. Fortunately for us, the additional cost to access random memory addresses is very small on microcontrollers (since all memory accesses are slow). </Footnote> 
+This sounds a lot like our buffer! In fact, we can treat our log buffer as a memory allocator. Instead of storing our data on the stack, we can store it directly in the log buffer.
+You need some place in memory to store the sensor data while you operate on it, so it might as well be in the <Footnote word="log buffer. "> On modern CPUs, this can be bad for cache locality. Fortunately for us, the additional cost to access random memory addresses is very small on microcontrollers (since all memory accesses are slow). </Footnote> 
 
 This brings us to the final piece of the puzzle:
 
@@ -76,7 +77,7 @@ char[BURST_READ_SIZE] packet;
 sensor_spi_read_data(address, packet);
 ParsedPacket parsed_packet = parse_packet(packet);
 ```
-Before you can turn these bytes into values, you need to store them somewhere. instead of storing it on the stack, you can store them directly in the log buffer. Like so:
+Before you can turn these bytes into values, you need to store them somewhere. Instead of storing them on the stack, you can store them directly in the log buffer. Like so:
 
 ```c
 char* packet = logger_malloc(BURST_READ_SIZE);
@@ -84,7 +85,7 @@ sensor_spi_burst_read_data(address, packet);
 ParsedPacket parsed_packet = parse_packet(packet);
 ```
 
-This way, you avoid having to copy any information into the logging buffer, since it is there from the start.
+This way, you avoid having to copy any information into the log buffer, since it is there from the start.
 
 ## Other Notes
 
