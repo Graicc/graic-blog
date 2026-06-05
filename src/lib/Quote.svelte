@@ -69,6 +69,10 @@
 		[
 			'<a href="https://en.wikipedia.org/wiki/Do_not_go_gentle_into_that_good_night">Do not go gentle into that good night, Old age should burn and rave at close of day; Rage, rage against the dying of the light.</a>',
 			'Dylan Thomas'
+		],
+		[
+			'It is not too much to expect that our children will enjoy in their homes electrical energy too cheap to meter, will know of great periodic regional famines in the world only as matters of history, will travel effortlessly over the seas and under them and through the air with a minimum of danger and at great speeds, and will experience a lifespan far longer than ours, as disease yields and man comes to understand what causes him to age.',
+			'Lewis Strauss'
 		]
 	];
 
