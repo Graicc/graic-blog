@@ -2,7 +2,7 @@
 title: Really Fast Microcontroller Black Box Sensor Logging 
 subtitle: Or, DMA is all you need
 date: 2026-05-11
-published: false
+published: true
 ---
 
 <script>
